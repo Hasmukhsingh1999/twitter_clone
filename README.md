@@ -1,2 +1,2 @@
-# twitter_clone
-Twitter Clone
+# Social App
+
