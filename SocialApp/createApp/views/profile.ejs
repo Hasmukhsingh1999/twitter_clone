@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bootstrap demo</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@3.4.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+  </head>
+
+  <style>
+    section {
+      padding: 2vw;
+    }
+    .card {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      justify-content: center;
+      padding: 1vw;
+      text-align: center;
+    }
+    .card > img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    #form {
+      display: none;
+    }
+    .overlay {
+      position: absolute;
+      display: none;
+      width: 100%;
+      height: 100%;
+      z-index: 999;
+      background-color: #000000bc;
+    }
+    #modal {
+      position: absolute;
+      display: none;
+      z-index: 9999;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 50vw;
+      max-height: 30vw;
+      overflow: auto;
+      border-radius: 20px;
+      background-color: #ffff;
+      box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    }
+    ::-webkit-scrollbar {
+      display: none;
+    }
+    #modal > form {
+      display: flex;
+      flex-direction: column;
+      padding: 2vw 10vw;
+    }
+    #nav,
+    #c {
+      z-index: 99;
+    }
+  </style>
+  <body>
+    <div class="overlay"></div>
+    <section id="nav">
+      <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Navbar</a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Link</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/showPost" >feed</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a
+                  class="nav-link dropdown-toggle"
+                  href="#"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  Dropdown
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#">Action</a></li>
+                  <li><a class="dropdown-item" href="#">Another action</a></li>
+                  <li><hr class="dropdown-divider" /></li>
+                  <li>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link disabled">Disabled</a>
+              </li>
+            </ul>
+            <div class="searchUser" style="position: relative">
+              <form class="d-flex" role="search">
+                <input
+                  class="form-control me-2"
+                  type="search"
+                  placeholder="Search"
+                  aria-label="Search"
+                  id="searchInput"
+                />
+                <button class="btn btn-outline-success" type="submit">
+                  Search
+                </button>
+              </form>
+              <div
+                class="userSearch"
+                style="
+                  width: 300px;
+                  max-height: 300px;
+                  overflow: auto;
+                  position: absolute;
+                  background-color: #e7eaf6;
+                  border-radius: 10px;
+                  box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
+                "
+              >
+                <!-- <div id="names" style="padding: 1vw;display: flex;gap: 10px;">
+              <img src="" alt="" style="width: 40px;height: 40px;border-radius: 50%;object-fit: cover;">
+              <div style="display: flex;">
+                <p>Name</p>
+              </div>
+            </div> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </section>
+    <section id="c">
+      <form
+        action="/uploads"
+        method="post"
+        enctype="multipart/form-data"
+        id="form"
+      >
+        <input type="file" name="image" id="profileInput" />
+        <input type="submit" id="submit" />
+      </form>
+      <div class="row row-cols-1 row-cols-md-2 g-4">
+        <div class="col">
+          <div class="card">
+            <img
+              src="/images/uploads/<%=users.profileimage%>"
+              class="card-img-top"
+              alt="..."
+            />
+            <div class="card-body">
+              <h5 class="card-title">
+                <span
+                  ><%=users.firstname%> <%=users.lastname%>
+                  <i id="edit" class="ri-edit-2-line"></i>
+                  <p style="font-size: 16px; color: #33333b; opacity: 0.9">
+                    @<%=users.username%>
+                  </p></span
+                >
+              </h5>
+              <p class="card-text">
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nemo
+                atque vitae ducimus!
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="modal">
+      <label style="margin-left: 10vw"><h4>Edit your profile</h4></label>
+      <form method="post" action="/edit">
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">First Name</label>
+          <input
+            placeholder="first name"
+            name="firstname"
+            type="text"
+            class="form-control"
+            id="exampleInputEmail1"
+            aria-describedby="emailHelp"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Last Name</label>
+          <input
+            placeholder="last name"
+            type="text"
+            name="lastname"
+            class="form-control"
+            id="exampleInputEmail1"
+            aria-describedby="emailHelp"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Username</label>
+          <input
+            placeholder="Username"
+            name="username"
+            type="text"
+            class="form-control"
+            id="exampleInputEmail1"
+            aria-describedby="emailHelp"
+          />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </section>
+    <section class="uploadPost">
+      <div class="col-3">
+        <form method="post" action="/upload-profile">
+          <label><h1>POSTS</h1></label>
+          <div class="form-floating">
+            <textarea
+              class="form-control"
+              placeholder="Leave a comment here"
+              id="floatingTextarea"
+              style="resize: none"
+              name="postDetails"
+            ></textarea>
+            <label for="floatingTextarea">Uploads.</label>
+          </div>
+          <div class="d-grid gap-2">
+            <button class="btn btn-primary mt-2" type="submit">Button</button>
+          </div>
+        </form>
+      </div>
+    </section>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"
+      integrity="sha512-uMtXmF28A2Ab/JJO2t/vYhlaa/3ahUOgj1Zf27M5rOo8/+fcTUVH0/E0ll68njmjrLqOBjXM3V9NiPFL5ywWPQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script>
+      function profileChange() {
+        const card = document.querySelector(".card>img");
+        const profileInput = document.querySelector("#profileInput");
+        card.addEventListener("click", function () {
+          profileInput.click();
+        });
+        profileInput.addEventListener("change", function () {
+          document.querySelector("#submit").click();
+        });
+      }
+      function editPost() {
+        var edit = document.querySelector("#edit");
+        var modal = document.querySelector("#modal");
+        var overlay = document.querySelector(".overlay");
+        edit.addEventListener("click", function () {
+          modal.style.display = "initial";
+          overlay.style.display = "initial";
+        });
+        window.addEventListener("keydown", function (event) {
+          if (event.keyCode === 27) {
+            modal.style.display = "none";
+            overlay.style.display = "none";
+          }
+        });
+      }
+      function searchUser() {
+        var searchInput = document.querySelector("#searchInput");
+        searchInput.addEventListener("input", async function () {
+          if (searchInput.value.trim().length > 0) {
+            var createUser = await axios.get(`/show/${searchInput.value}`);
+            var clutter = ``;
+            console.log(createUser.data.allUsers);
+            createUser.data.allUsers.forEach(function (elem) {
+              clutter += `<div id="names" style="padding: 1vw;display: flex;align-items:center;gap: 10px;">
+              <img src="/images/uploads/${elem.profileimage}" alt="" style="width: 40px;height: 40px;border-radius: 50%;object-fit: cover;">
+              <div style="display: flex;flex-direction:column;line-height:2px">
+                <p>${elem.firstname} ${elem.lastname}</p>
+                <p>${elem.username}</p>
+              </div>
+            </div>`;
+            });
+            document.querySelector(".userSearch").innerHTML = clutter;
+          } else {
+            document.querySelector(".userSearch").innerHTML = "";
+          }
+          window.addEventListener("keydown", function (event) {
+            if (event.keyCode === 27) {
+              document.querySelector(".userSearch").display = "none";
+            }
+          });
+        });
+      }
+      profileChange();
+      editPost();
+      searchUser();
+    </script>
+  </body>
+</html>
